@@ -10,6 +10,11 @@
   --b1:#1a6abf;--b2:#2378d4;--b3:#3b9ef6;
   --b4:#6bbdff;--b5:#a8d8ff;--b6:#cce8ff;
   --b7:#dff0ff;--b8:#eef7ff;
+  /* animated gradient colors (cute pastels) */
+  --g1: #fbe8f0; /* soft pink */
+  --g2: #e8f3ff; /* baby blue */
+  --g3: #fff3d9; /* pale peach */
+  --g4: #f0f7ff; /* light wash */
   --ink:#0a2a5e;--muted:#4a7ab0;--faint:#8dbfea;
   --white:#ffffff;--gold:#f0c040;--rose:#f472b6;
   --glass:rgba(255,255,255,0.22);
@@ -20,7 +25,10 @@
 
 body{
   font-family:'Jost',sans-serif;
-  background:#b8dcf8;
+  background:
+    radial-gradient(circle at 10% 15%, rgba(255,255,255,0.96) 0%, transparent 28%),
+    radial-gradient(circle at 90% 22%, rgba(255,245,250,0.9) 0%, transparent 30%),
+    linear-gradient(180deg,#f5ecff 0%,#dce9ff 38%,#bde2ff 80%,#e8f4ff 100%);
   color:var(--ink);
   overflow-x:hidden;
   min-height:100vh;
@@ -30,35 +38,32 @@ body{
 .aurora{
   position:fixed;inset:0;z-index:0;
   background:
-    radial-gradient(ellipse 90% 70% at 0% 0%,   #90caff 0%, transparent 55%),
-    radial-gradient(ellipse 80% 60% at 100% 0%,  #a8d8ff 0%, transparent 50%),
-    radial-gradient(ellipse 70% 80% at 50% 100%, #7dbef7 0%, transparent 55%),
-    radial-gradient(ellipse 100% 90% at 40% 50%, #cde8ff 0%, transparent 65%),
-    linear-gradient(160deg, #b8dcf8 0%, #d6eeff 40%, #c4e2ff 70%, #a8d4f5 100%);
-  animation:auroraShift 16s ease-in-out infinite alternate;
-}
-@keyframes auroraShift{
-  0%  {filter:hue-rotate(0deg) brightness(1);}
-  50% {filter:hue-rotate(12deg) brightness(1.06);}
-  100%{filter:hue-rotate(-8deg) brightness(0.97);}
+    radial-gradient(circle at 20% 12%, rgba(255,255,255,0.95) 0%, transparent 34%),
+    radial-gradient(circle at 80% 22%, rgba(255,245,250,0.85) 0%, transparent 28%),
+    linear-gradient(160deg, #f7efff 0%, #dde6ff 45%, #c6ecff 100%);
 }
 .aurora::after{
   content:'';position:absolute;inset:0;
   background:
-    radial-gradient(circle 700px at 75% 25%, rgba(150,200,255,0.3) 0%,transparent 70%),
-    radial-gradient(circle 500px at 25% 75%, rgba(180,220,255,0.2) 0%,transparent 65%);
-  animation:meshPulse 9s ease-in-out infinite alternate;
+    radial-gradient(circle 680px at 76% 24%, rgba(255,255,255,0.16) 0%,transparent 72%),
+    radial-gradient(circle 520px at 24% 76%, rgba(255,255,255,0.14) 0%,transparent 68%);
 }
-@keyframes meshPulse{from{opacity:0.6;}to{opacity:1;}}
 
-/* heart canvas — always on, from login onwards */
-#hearts-canvas{
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  pointer-events:none;z-index:2;
+/* background canvas for subtle animated particles */
+#bg-canvas{
+  position:fixed;top:0;left:0;width:100vw;height:100vh;
+  pointer-events:none;z-index:1;display:block;will-change:transform,opacity;
 }
-#particles-canvas{
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  pointer-events:none;z-index:1;
+
+@media (max-width: 600px){
+  /* lighter overlay and smaller aurora on phones */
+  body{background-size:cover;}
+  body::after{opacity:0.85}
+  .big-wish{font-size:clamp(2.8rem,10vw,5.5rem)}
+  .slide-stage{height:360px}
+  .login-card{padding:28px 22px 22px;border-radius:28px}
+  .key{font-size:1.15rem}
+  .date-card{padding:28px}
 }
 
 /* ══ LOGIN ══ */
@@ -66,103 +71,88 @@ body{
   position:fixed;inset:0;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
+  padding:20px;
   z-index:1000;
 }
 
 .login-card{
   position:relative;
-  background:rgba(255,255,255,0.28);
-  backdrop-filter:blur(36px) saturate(1.8);
-  -webkit-backdrop-filter:blur(36px) saturate(1.8);
-  border:1.5px solid rgba(255,255,255,0.65);
-  border-radius:38px;
-  padding:52px 46px 46px;
+  background:rgba(255,255,255,0.92);
+  border:1px solid rgba(255,255,255,0.85);
+  border-radius:44px;
+  padding:54px 42px 42px;
   text-align:center;
   box-shadow:
-    0 40px 100px rgba(30,100,200,0.18),
-    0 8px 32px rgba(100,170,255,0.15),
-    inset 0 1px 0 rgba(255,255,255,0.8),
-    inset 0 -1px 0 rgba(255,255,255,0.3);
-  max-width:400px;width:90%;
-  animation:cardFloat 5s ease-in-out infinite;
+    0 36px 80px rgba(31,75,140,0.15),
+    0 8px 30px rgba(79,141,218,0.12);
+  max-width:420px;width:100%;
   overflow:hidden;
 }
 .login-card::before{
   content:'';position:absolute;
-  top:-60%;left:-60%;width:220%;height:220%;
-  background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,0.12) 50%,transparent 60%);
-  animation:shimmer 5s linear infinite;
+  top:-40px;left:-40px;width:220px;height:220px;
+  background:radial-gradient(circle,rgba(255,255,255,0.85),transparent 65%);
 }
-@keyframes shimmer{from{transform:translateX(-100%);}to{transform:translateX(100%);}}
-@keyframes cardFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
 
 .login-icon{
-  font-size:70px;display:block;margin-bottom:14px;
-  filter:drop-shadow(0 0 18px rgba(80,160,255,0.6));
-  animation:iconPulse 3s ease-in-out infinite;
-}
-@keyframes iconPulse{
-  0%,100%{transform:scale(1);filter:drop-shadow(0 0 16px rgba(80,160,255,0.5));}
-  50%{transform:scale(1.1);filter:drop-shadow(0 0 30px rgba(80,160,255,0.85));}
+  font-size:72px;display:block;margin-bottom:14px;
 }
 
 .login-title{
   font-family:'Great Vibes',cursive;
-  font-size:2.9rem;color:var(--ink);
-  letter-spacing:1px;margin-bottom:4px;
-  text-shadow:0 2px 16px rgba(80,160,255,0.35);
+  font-size:3rem;color:var(--ink);
+  letter-spacing:1px;margin-bottom:6px;
 }
 .login-subtitle{
-  font-size:0.7rem;color:var(--muted);
-  letter-spacing:3px;text-transform:uppercase;margin-bottom:34px;
+  font-size:0.75rem;color:var(--muted);
+  letter-spacing:3px;text-transform:uppercase;margin-bottom:30px;
 }
 
-.dots-row{display:flex;justify-content:center;gap:16px;margin-bottom:30px;}
+.dots-row{display:flex;justify-content:center;gap:14px;margin-bottom:28px;}
 .dot{
-  width:16px;height:16px;border-radius:50%;
-  border:2px solid rgba(80,150,220,0.4);
-  background:transparent;transition:all 0.35s cubic-bezier(.34,1.56,.64,1);
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid rgba(100,160,220,0.35);
+  background:transparent;transition:all 0.2s ease;
 }
 .dot.filled{
   background:var(--b2);border-color:var(--b3);
-  transform:scale(1.3);
-  box-shadow:0 0 14px rgba(59,158,246,0.7),0 0 28px rgba(59,158,246,0.35);
+  transform:scale(1.25);
+  box-shadow:0 0 12px rgba(59,158,246,0.6);
 }
 
 .keypad{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:14px;max-width:250px;margin:0 auto 22px;
+  gap:14px;max-width:260px;margin:0 auto 24px;
 }
 .key{
   aspect-ratio:1;border:none;border-radius:50%;
-  background:rgba(255,255,255,0.45);
-  border:1.5px solid rgba(255,255,255,0.7);
+  background:rgba(255,255,255,0.95);
+  border:1px solid rgba(184,215,255,0.65);
   color:var(--ink);
   font-family:'Cormorant Garamond',serif;
-  font-size:1.5rem;font-weight:600;
+  font-size:1.45rem;font-weight:700;
   cursor:pointer;
-  box-shadow:0 4px 16px rgba(80,140,220,0.15),inset 0 1px 0 rgba(255,255,255,0.9);
-  transition:all 0.18s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 14px 22px rgba(80,140,220,0.08);
+  transition:transform 0.18s ease,background 0.18s ease,box-shadow 0.18s ease;
 }
 .key:hover{
-  background:rgba(107,189,255,0.35);
-  border-color:rgba(107,189,255,0.8);
-  transform:scale(1.13);
-  box-shadow:0 8px 24px rgba(35,120,212,0.3);
+  background:rgba(107,189,255,0.45);
+  transform:translateY(-2px);
+  box-shadow:0 16px 26px rgba(35,120,212,0.14);
 }
-.key:active{transform:scale(0.92);}
+.key:active{transform:scale(0.96);}
 .key-del{font-size:1rem;color:var(--b2);}
 .key-0{grid-column:2;}
 
 .login-error{
-  color:#c0392b;font-size:0.8rem;height:20px;
-  transition:opacity 0.3s;opacity:0;font-weight:600;
+  color:#c0392b;font-size:0.85rem;min-height:22px;
+  transition:opacity 0.2s ease;opacity:0;font-weight:700;
 }
 .login-error.show{opacity:1;}
 @keyframes shake{
   0%,100%{transform:translateX(0);}
-  20%{transform:translateX(-12px);}
-  40%{transform:translateX(12px);}
+  20%{transform:translateX(-10px);}
+  40%{transform:translateX(10px);}
   60%{transform:translateX(-8px);}
   80%{transform:translateX(8px);}
 }
@@ -176,50 +166,45 @@ body{
   min-height:100vh;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  text-align:center;padding:80px 24px 60px;
+  text-align:center;padding:90px 24px 80px;
   position:relative;
 }
 .hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,0.45);
-  border:1px solid rgba(255,255,255,0.75);
-  border-radius:50px;padding:8px 22px;
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.7);
+  border:1px solid rgba(255,255,255,0.85);
+  border-radius:999px;padding:12px 28px;
   font-size:0.72rem;letter-spacing:2.5px;
   color:var(--muted);text-transform:uppercase;
-  margin-bottom:28px;backdrop-filter:blur(12px);
-  animation:fadeUp 0.8s ease both;
-  box-shadow:0 4px 16px rgba(80,140,220,0.1);
+  margin-bottom:30px;backdrop-filter:blur(16px);
+  box-shadow:0 16px 40px rgba(80,140,220,0.1);
 }
 .big-wish{
   font-family:'Great Vibes',cursive;
-  font-size:clamp(4rem,11vw,8.5rem);
-  color:var(--ink);line-height:1.05;
-  text-shadow:0 0 60px rgba(59,158,246,0.3),0 4px 30px rgba(35,120,212,0.2);
-  animation:fadeUp 0.9s ease 0.1s both;
+  font-size:clamp(4.6rem,11vw,8.5rem);
+  color:var(--ink);line-height:1.04;
+  text-shadow:0 10px 45px rgba(59,158,246,0.22),0 4px 28px rgba(35,120,212,0.18);
+  margin-bottom:24px;
 }
 .big-wish-sub{
   font-family:'Cormorant Garamond',serif;
-  font-style:italic;font-size:clamp(1.3rem,3.5vw,2.2rem);
-  color:var(--b2);margin-top:6px;letter-spacing:1px;
-  animation:fadeUp 0.9s ease 0.2s both;
+  font-style:italic;font-size:clamp(1.35rem,3.5vw,2.1rem);
+  color:var(--b2);margin-top:4px;letter-spacing:1px;
 }
 .hero-flowers{
-  font-size:clamp(1.8rem,4vw,2.8rem);
-  margin:28px 0;letter-spacing:10px;
-  animation:fadeUp 0.9s ease 0.35s both;
-  filter:drop-shadow(0 4px 10px rgba(80,160,255,0.3));
+  font-size:clamp(1.9rem,4vw,2.9rem);
+  margin:28px 0 24px;letter-spacing:9px;
+  filter:drop-shadow(0 5px 14px rgba(80,160,255,0.28));
 }
 .message-card{
   position:relative;overflow:hidden;
-  background:rgba(255,255,255,0.42);
-  backdrop-filter:blur(24px) saturate(1.6);
-  border:1px solid rgba(255,255,255,0.72);
-  border-radius:30px;padding:38px 44px;
-  max-width:640px;margin:0 auto;
-  box-shadow:0 24px 70px rgba(30,100,200,0.12),inset 0 1px 0 rgba(255,255,255,0.9);
-  animation:fadeUp 0.9s ease 0.5s both;
+  background:rgba(255,255,255,0.88);
+  border:1px solid rgba(255,255,255,0.78);
+  border-radius:38px;padding:40px 46px;
+  max-width:720px;margin:0 auto;
+  box-shadow:0 30px 80px rgba(40,110,190,0.12);
   font-family:'Cormorant Garamond',serif;
-  font-style:italic;color:var(--ink);font-size:1.18rem;line-height:2;
+  font-style:italic;color:var(--ink);font-size:1.16rem;line-height:1.95;
 }
 .message-card::before{
   content:'❝';position:absolute;top:-10px;left:24px;
@@ -228,15 +213,16 @@ body{
 }
 .message-card strong{
   font-style:normal;font-family:'Great Vibes',cursive;
-  font-size:1.5rem;color:var(--b2);
+  font-size:1.55rem;color:var(--b2);
 }
 .from-sig{
-  margin-top:22px;font-style:normal;
+  margin-top:24px;font-style:normal;
   font-family:'Great Vibes',cursive;
   font-size:2rem;color:var(--b1);
-  text-shadow:0 0 16px rgba(35,120,212,0.3);
+  text-shadow:0 0 18px rgba(35,120,212,0.25);
 }
-@keyframes fadeUp{from{opacity:0;transform:translateY(36px);}to{opacity:1;transform:translateY(0);}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
 
 /* ── WAVE ── */
 .wave-div{width:100%;overflow:hidden;line-height:0;margin-top:-2px;}
@@ -257,80 +243,82 @@ body{
 }
 
 /* ── SLIDESHOW ── */
-.slideshow-section{padding:80px 24px 90px;position:relative;}
-.slideshow-wrap{position:relative;max-width:700px;margin:0 auto;}
+.slideshow-section{padding:90px 24px 96px;position:relative;}
+.slideshow-wrap{position:relative;max-width:860px;margin:0 auto;}
 .slide-stage{
-  position:relative;height:460px;
-  border-radius:28px;overflow:hidden;
-  box-shadow:0 0 0 1px rgba(255,255,255,0.5),0 40px 90px rgba(30,100,200,0.2);
-  border:1px solid rgba(255,255,255,0.6);
+  position:relative;height:560px;
+  border-radius:42px;overflow:hidden;
+  box-shadow:0 40px 120px rgba(30,100,200,0.14);
+  border:1px solid rgba(255,255,255,0.7);
+  background:rgba(255,255,255,0.55);
 }
 .slide{
   position:absolute;inset:0;
   display:flex;align-items:center;justify-content:center;
-  opacity:0;transform:scale(0.96) translateX(40px);
-  transition:all 0.7s cubic-bezier(.4,0,.2,1);
+  opacity:0;transform:translateX(30px);
+  transition:opacity 0.55s ease,transform 0.55s ease;
   pointer-events:none;
 }
-.slide.active{opacity:1;transform:scale(1) translateX(0);pointer-events:auto;}
-.slide.exit{opacity:0;transform:scale(1.04) translateX(-40px);}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:auto;}
+.slide.exit{opacity:0;transform:translateX(-30px);}
 .slide-img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
 .slide-placeholder{
   width:100%;height:100%;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  background:linear-gradient(135deg,rgba(180,220,255,0.7),rgba(140,190,255,0.5));
-  color:var(--muted);
+  padding:32px;
+  background:rgba(255,255,255,0.92);
+  color:var(--ink);
   font-family:'Cormorant Garamond',serif;
-  font-size:1rem;font-style:italic;gap:12px;
+  font-size:1rem;font-style:italic;gap:16px;
 }
-.slide-placeholder .ph-icon{font-size:3.5rem;opacity:0.5;}
-.slide-placeholder .ph-num{font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;opacity:0.45;}
+.slide-placeholder .ph-icon{font-size:4rem;opacity:0.65;}
+.slide-placeholder .ph-num{font-size:0.78rem;letter-spacing:1.8px;text-transform:uppercase;opacity:0.6;}
 .slide-overlay{
   position:absolute;bottom:0;left:0;right:0;
-  background:linear-gradient(transparent,rgba(10,42,94,0.65));
-  padding:28px 28px 22px;
+  background:linear-gradient(180deg,rgba(10,42,94,0.08),rgba(10,42,94,0.35));
+  backdrop-filter:blur(10px);
+  padding:30px 32px 24px;
 }
 .slide-caption{
   font-family:'Cormorant Garamond',serif;
-  font-style:italic;color:#fff;font-size:1.15rem;
-  text-shadow:0 2px 12px rgba(0,0,0,0.4);
+  font-style:italic;color:#fff;font-size:1.2rem;
+  text-shadow:0 2px 16px rgba(0,0,0,0.32);
 }
-.slide-num-tag{font-size:0.7rem;letter-spacing:2px;color:var(--b4);text-transform:uppercase;margin-bottom:4px;}
-.slide-nav{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:26px;}
+.slide-num-tag{font-size:0.75rem;letter-spacing:2px;color:var(--b4);text-transform:uppercase;margin-bottom:6px;}
+.slide-nav{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:28px;}
 .slide-btn{
-  width:48px;height:48px;border-radius:50%;
-  border:1.5px solid rgba(255,255,255,0.6);
-  background:rgba(255,255,255,0.35);
-  color:var(--ink);font-size:1.1rem;
-  cursor:pointer;backdrop-filter:blur(8px);
-  transition:all 0.2s;
+  width:54px;height:54px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.85);
+  background:rgba(255,255,255,0.85);
+  color:var(--ink);font-size:1.25rem;
+  cursor:pointer;backdrop-filter:blur(12px);
+  transition:transform 0.2s ease,box-shadow 0.2s ease,background 0.2s ease;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 12px rgba(30,100,200,0.1);
+  box-shadow:0 10px 25px rgba(30,100,200,0.16);
 }
-.slide-btn:hover{background:rgba(107,189,255,0.45);border-color:rgba(107,189,255,0.8);transform:scale(1.1);}
-.slide-dots{display:flex;gap:8px;}
+.slide-btn:hover{background:rgba(255,255,255,1);border-color:rgba(107,189,255,0.75);transform:scale(1.05);}
+.slide-dots{display:flex;gap:12px;justify-content:center;margin-top:18px;}
 .sdot{
-  width:8px;height:8px;border-radius:50%;
+  width:12px;height:12px;border-radius:50%;
   background:rgba(35,120,212,0.25);
   transition:all 0.35s cubic-bezier(.34,1.56,.64,1);cursor:pointer;
 }
-.sdot.active{background:var(--b2);transform:scale(1.4);box-shadow:0 0 10px rgba(59,158,246,0.6);}
+.sdot.active{background:var(--b2);transform:scale(1.45);box-shadow:0 0 18px rgba(59,158,246,0.45);}
 
 /* ── DATE SECTION ── */
-.date-section{padding:80px 24px 90px;position:relative;}
+.date-section{padding:90px 24px 96px;position:relative;}
 .date-card{
-  max-width:520px;margin:0 auto;
-  background:rgba(255,255,255,0.42);
-  backdrop-filter:blur(28px) saturate(1.6);
-  border:1px solid rgba(255,255,255,0.72);
-  border-radius:32px;padding:48px 40px;
-  box-shadow:0 32px 80px rgba(30,100,200,0.14),inset 0 1px 0 rgba(255,255,255,0.9);
+  max-width:560px;margin:0 auto;
+  background:rgba(255,255,255,0.92);
+  border:1px solid rgba(255,255,255,0.82);
+  border-radius:38px;padding:48px 42px;
+  box-shadow:0 36px 95px rgba(30,100,200,0.12);
   text-align:center;position:relative;overflow:hidden;
 }
 .date-card::before{
-  content:'📅';position:absolute;top:-20px;right:-20px;
-  font-size:120px;opacity:0.05;pointer-events:none;
+  content:'📅';position:absolute;top:-20px;right:-18px;
+  font-size:112px;opacity:0.05;pointer-events:none;
 }
 .date-card label{
   display:block;font-size:0.72rem;letter-spacing:3px;
@@ -339,63 +327,80 @@ body{
 .date-input{
   width:100%;padding:16px 22px;
   border:1.5px solid rgba(80,140,220,0.3);
-  border-radius:18px;
-  font-family:'Jost',sans-serif;font-size:1.1rem;
-  color:var(--ink);background:rgba(255,255,255,0.6);
-  outline:none;transition:all 0.3s;cursor:pointer;
+  border-radius:22px;
+  font-family:'Jost',sans-serif;font-size:1.08rem;
+  color:var(--ink);background:rgba(255,255,255,0.8);
+  outline:none;transition:all 0.28s ease;cursor:pointer;
 }
 .date-input:focus{
   border-color:var(--b3);
-  box-shadow:0 0 0 4px rgba(59,158,246,0.12);
-  background:rgba(255,255,255,0.8);
+  box-shadow:0 0 0 4px rgba(59,158,246,0.14);
+  background:rgba(255,255,255,1);
 }
 .date-result{
-  margin-top:28px;padding:24px 28px;
-  background:rgba(107,189,255,0.15);
+  margin-top:28px;padding:28px 30px;
+  background:rgba(107,189,255,0.16);
   border:1px solid rgba(107,189,255,0.3);
-  border-radius:20px;display:none;
-  animation:fadeUp 0.5s ease;
+  border-radius:24px;display:none;
 }
 .dr-label{font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--b2);margin-bottom:6px;}
-.dr-value{font-family:'Great Vibes',cursive;font-size:2rem;color:var(--ink);}
-.dr-sub{font-size:0.85rem;color:var(--muted);margin-top:6px;}
+.dr-value{font-family:'Great Vibes',cursive;font-size:2.05rem;color:var(--ink);}
+.dr-sub{font-size:0.86rem;color:var(--muted);margin-top:6px;}
 .date-confirm-btn{
-  margin-top:22px;padding:15px 36px;
+  margin-top:24px;padding:16px 36px;
   border:1.5px solid rgba(59,158,246,0.45);
-  border-radius:50px;
-  background:rgba(59,158,246,0.15);
+  border-radius:999px;
+  background:linear-gradient(135deg, rgba(59,158,246,0.18), rgba(107,189,255,0.22));
   color:var(--ink);
-  font-family:'Jost',sans-serif;font-weight:500;font-size:1rem;
-  cursor:pointer;transition:all 0.28s;display:none;letter-spacing:0.5px;
+  font-family:'Jost',sans-serif;font-weight:700;font-size:1rem;
+  cursor:pointer;transition:all 0.28s ease;display:none;letter-spacing:0.5px;
 }
 .date-confirm-btn:hover{
-  background:rgba(59,158,246,0.3);border-color:var(--b3);
-  transform:translateY(-3px);box-shadow:0 10px 28px rgba(35,120,212,0.2);
+  background:linear-gradient(135deg, rgba(59,158,246,0.3), rgba(107,189,255,0.35));border-color:var(--b3);
+  transform:translateY(-2px);box-shadow:0 12px 28px rgba(35,120,212,0.2);
 }
 .date-confirmed{
-  margin-top:24px;padding:32px 28px;
-  background:linear-gradient(135deg,rgba(59,158,246,0.2),rgba(107,189,255,0.15));
+  margin-top:24px;padding:34px 30px;
+  background:linear-gradient(135deg,rgba(59,158,246,0.18),rgba(107,189,255,0.14));
   border:1px solid rgba(107,189,255,0.4);
-  border-radius:24px;display:none;
-  animation:fadeUp 0.6s cubic-bezier(.34,1.56,.64,1);
+  border-radius:28px;display:none;
   position:relative;overflow:hidden;
 }
 .date-confirmed::before{
   content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at 50% 0%,rgba(255,255,255,0.15),transparent 70%);
+  background:radial-gradient(circle at 50% 0%,rgba(255,255,255,0.2),transparent 72%);
 }
 .conf-emoji{font-size:2.2rem;margin-bottom:12px;display:block;}
 .conf-main{
   font-family:'Great Vibes',cursive;
-  font-size:1.6rem;color:var(--ink);line-height:1.7;
+  font-size:1.6rem;color:var(--ink);line-height:1.72;
 }
 .conf-date{
   font-family:'Great Vibes',cursive;
   font-size:2.5rem;color:var(--b1);
-  text-shadow:0 0 16px rgba(35,120,212,0.3);
+  text-shadow:0 0 16px rgba(35,120,212,0.25);
   display:block;margin:6px 0;
 }
 .conf-note{font-size:0.78rem;letter-spacing:1px;color:var(--muted);margin-top:14px;font-style:italic;}
+.theme-inputs{margin-top:24px;display:none;}
+.theme-inputs label{display:block;font-size:0.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin:18px 0 10px;text-align:left;}
+.theme-inputs .date-input{margin-top:0;}
+.conf-sign{margin-top:18px;font-size:0.95rem;color:var(--ink);font-weight:600;text-align:right;}
+
+/* Confirmation card premium effects */
+.date-confirmed{
+  transition:transform 0.6s cubic-bezier(.2,.9,.3,1), box-shadow 0.6s;
+  transform-origin:center center; will-change:transform,opacity;
+}
+.date-confirmed.celebrate{transform:scale(1.03);box-shadow:0 50px 120px rgba(30,100,200,0.22);}
+.conf-title{font-family:'Great Vibes',cursive;font-size:1.6rem;color:var(--b2);margin-bottom:6px}
+.conf-message{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.date-confirmed.show .conf-message{opacity:1;transform:none;}
+.glass-shimmer{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;background:linear-gradient(90deg,rgba(255,255,255,0.14),rgba(255,255,255,0.02),rgba(255,255,255,0.14));transform:translateX(-40%);opacity:0.9;transition:transform 1.2s ease;}
+.date-confirmed.show .glass-shimmer{transform:translateX(40%);} 
+
+/* confetti fallback container for small DOM elements if needed */
+#fx-hint{position:fixed;inset:auto 0 12px 0;pointer-events:none;z-index:1200;display:flex;justify-content:center}
 
 /* ── VIDEO ── */
 .video-section{padding:80px 24px 90px;position:relative;}
@@ -479,18 +484,35 @@ footer{
 }
 
 /* ── REVEAL ── */
-.reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal{opacity:1;transform:none;transition:none;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* animated gradient overlay */
+body::after{
+  content:'';position:fixed;inset:0;z-index:-2;
+  background:linear-gradient(120deg,var(--g1),var(--g2),var(--g3),var(--g4));
+  background-size:300% 300%;
+  opacity:0.95;pointer-events:none;mix-blend-mode:screen;
+  animation:gradientShift 20s ease-in-out infinite;
+}
+
+@keyframes gradientShift{
+  0%{background-position:0% 50%;}
+  25%{background-position:50% 30%;}
+  50%{background-position:100% 50%;}
+  75%{background-position:50% 70%;}
+  100%{background-position:0% 50%;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  body::after{animation:none;}
+}
 </style>
 </head>
 <body>
 
 <div class="aurora"></div>
-
-<!-- Hearts canvas — starts immediately, always visible -->
-<canvas id="hearts-canvas"></canvas>
-<!-- Main particles canvas — extra flowers after login -->
-<canvas id="particles-canvas"></canvas>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
 
 <!-- ══════════ LOGIN ══════════ -->
 <div id="login-page">
@@ -505,19 +527,19 @@ footer{
       <div class="dot" id="d3"></div>
     </div>
     <div class="keypad">
-      <button class="key" onclick="addDigit('1')">1</button>
-      <button class="key" onclick="addDigit('2')">2</button>
-      <button class="key" onclick="addDigit('3')">3</button>
-      <button class="key" onclick="addDigit('4')">4</button>
-      <button class="key" onclick="addDigit('5')">5</button>
-      <button class="key" onclick="addDigit('6')">6</button>
-      <button class="key" onclick="addDigit('7')">7</button>
-      <button class="key" onclick="addDigit('8')">8</button>
-      <button class="key" onclick="addDigit('9')">9</button>
-      <button class="key key-del" onclick="delDigit()">⌫</button>
-      <button class="key key-0" onclick="addDigit('0')">0</button>
+      <button type="button" class="key" onclick="addDigit('1')">1</button>
+      <button type="button" class="key" onclick="addDigit('2')">2</button>
+      <button type="button" class="key" onclick="addDigit('3')">3</button>
+      <button type="button" class="key" onclick="addDigit('4')">4</button>
+      <button type="button" class="key" onclick="addDigit('5')">5</button>
+      <button type="button" class="key" onclick="addDigit('6')">6</button>
+      <button type="button" class="key" onclick="addDigit('7')">7</button>
+      <button type="button" class="key" onclick="addDigit('8')">8</button>
+      <button type="button" class="key" onclick="addDigit('9')">9</button>
+      <button type="button" class="key key-del" onclick="delDigit()">⌫</button>
+      <button type="button" class="key key-0" onclick="addDigit('0')">0</button>
     </div>
-    <div class="login-error" id="login-error">✦ Oh no love!!!</div>
+    <div class="login-error" id="login-error">Oh no love!!!</div>
   </div>
 </div>
 
@@ -528,8 +550,6 @@ footer{
   <section class="hero">
     <div class="hero-badge">✦ &nbsp; A birthday to remember &nbsp; ✦</div>
     <div class="big-wish">Happy Birthday, I love you! </div>
-    <div class="big-wish-sub">To the most wonderful soul 🌸</div>
-    <div class="hero-flowers">🌸 🌺 🌼 🌷 🌻</div>
     <div class="message-card">
       <strong>To the most wonderful person in my life,</strong><br><br>
       May this beautiful day wrap you in all the warmth, joy and love you so freely give to everyone around you.
@@ -613,11 +633,35 @@ footer{
           <div class="slide-placeholder">
             <span class="ph-icon">📷</span>
             <span>Add photo 5 — <code style="font-size:0.75rem;opacity:0.6">src="photo5.jpg"</code></span>
-            <span class="ph-num">slide 05 / 05</span>
+            <span class="ph-num">slide 05 / 07</span>
           </div>
           <div class="slide-overlay">
             <div class="slide-num-tag">Memory 05</div>
-            <div class="slide-caption">Here's to many more moments like these 🎉</div>
+            <div class="slide-caption">Here's to many more moments like these</div>
+          </div>
+        </div>
+
+        <div class="slide" id="slide-5">
+          <div class="slide-placeholder">
+            <span class="ph-icon">📷</span>
+            <span>Add photo 6 — <code style="font-size:0.75rem;opacity:0.6">src="photo6.jpg"</code></span>
+            <span class="ph-num">slide 06 / 07</span>
+          </div>
+          <div class="slide-overlay">
+            <div class="slide-num-tag">Memory 06</div>
+            <div class="slide-caption">A special moment we’ll always remember</div>
+          </div>
+        </div>
+
+        <div class="slide" id="slide-6">
+          <div class="slide-placeholder">
+            <span class="ph-icon">📷</span>
+            <span>Add photo 7 — <code style="font-size:0.75rem;opacity:0.6">src="photo7.jpg"</code></span>
+            <span class="ph-num">slide 07 / 07</span>
+          </div>
+          <div class="slide-overlay">
+            <div class="slide-num-tag">Memory 07</div>
+            <div class="slide-caption">A beautiful ending to our photo story</div>
           </div>
         </div>
 
@@ -630,44 +674,6 @@ footer{
     </div>
   </section>
 
-  <div class="wave-div">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,30 C300,0 600,60 900,30 C1050,15 1150,45 1200,30 L1200,60 L0,60 Z" fill="rgba(255,255,255,0.12)"/>
-    </svg>
-  </div>
-
-  <!-- DATE SECTION -->
-  <section class="date-section">
-    <div class="section-title reveal">Pick Our Date 🗓️</div>
-    <div class="section-sub reveal">when are you free? let's make it official</div>
-    <div class="date-card reveal">
-      <label for="bday-date">I am free on…</label>
-      <input type="date" class="date-input" id="bday-date" onchange="handleDate(this)">
-      <div class="date-result" id="date-result">
-        <div class="dr-label">You selected</div>
-        <div class="dr-value" id="dr-value">—</div>
-        <div class="dr-sub" id="dr-sub">—</div>
-      </div>
-      <button class="date-confirm-btn" id="date-confirm-btn" onclick="confirmDate()">
-        🎉 &nbsp; Yes! Lock this date in
-      </button>
-      <div class="date-confirmed" id="date-confirmed">
-        <span class="conf-emoji">🎊🌸🎊</span>
-        <div class="conf-main">
-          It's official — our date is on
-          <span class="conf-date" id="confirmed-date-text">—</span>
-          I will make every second of it unforgettable 💙
-        </div>
-        <div class="conf-note">— Adnan Feroz</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="wave-div">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,20 C150,50 350,0 600,25 C850,50 1050,10 1200,30 L1200,60 L0,60 Z" fill="rgba(255,255,255,0.12)"/>
-    </svg>
-  </div>
 
   <!-- VIDEO SECTION -->
   <section class="video-section">
@@ -713,6 +719,35 @@ footer{
     </div>
   </section>
 
+  <div class="wave-div">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 C300,0 600,60 900,30 C1050,15 1150,45 1200,30 L1200,60 L0,60 Z" fill="rgba(255,255,255,0.12)"/>
+    </svg>
+  </div>
+
+  <!-- DATE SECTION -->
+  <section class="date-section">
+    <div class="section-title reveal">Pick Our Date 🗓️</div>
+    <div class="section-sub reveal">when are you free? let's make it official</div>
+    <div class="date-card reveal">
+      <label for="bday-date">I am free on…</label>
+      <input type="date" class="date-input" id="bday-date" onchange="handleDate(this)">
+      <div class="date-result" id="date-result">
+        <div class="dr-label">You selected</div>
+        <div class="dr-value" id="dr-value">—</div>
+        <div class="dr-sub" id="dr-sub">—</div>
+      </div>
+      <button class="date-confirm-btn" id="date-confirm-btn" onclick="confirmDate()">
+        Yes! Lock this date in
+      </button>
+      <div class="theme-inputs" id="theme-inputs">
+        <label for="day-color">Color of the day</label>
+        <input type="text" class="date-input" id="day-color" placeholder="e.g. blush pink, sapphire blue" oninput="updateColorField()">
+      </div>
+      <div class="date-confirmed" id="date-confirmed"></div>
+    </div>
+  </section>
+
   <footer>
     <div class="footer-sig">Made with love by Adnan Feroz 💙</div>
     <div class="footer-sub">Happy Birthday Love · wishing you everything beautiful</div>
@@ -721,6 +756,171 @@ footer{
 </div>
 
 <script>
+// Background particle animation (lightweight, respects prefers-reduced-motion)
+(function(){
+  try{
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const canvas = document.getElementById('bg-canvas');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W = 0, H = 0, DPR = window.devicePixelRatio || 1;
+    function resize(){
+      DPR = window.devicePixelRatio || 1;
+      const cssW = window.innerWidth; const cssH = window.innerHeight;
+      canvas.width = Math.floor(cssW * DPR);
+      canvas.height = Math.floor(cssH * DPR);
+      canvas.style.width = cssW + 'px';
+      canvas.style.height = cssH + 'px';
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+      W = cssW; H = cssH;
+    }
+    resize(); window.addEventListener('resize', resize, {passive:true});
+
+    const palette = [ [59,158,246,0.12], [107,189,255,0.09], [244,114,182,0.06], [180,220,255,0.08] ];
+    const parts = [];
+    const rand = (a,b)=> Math.random()*(b-a)+a;
+
+    function drawHeart(ctx,x,y,r,fill){
+      const scale = r/16;
+      ctx.save(); ctx.translate(x,y); ctx.scale(scale,scale);
+      ctx.beginPath();
+      ctx.moveTo(0,-6);
+      ctx.bezierCurveTo(6,-18,28,-18,28,-2);
+      ctx.bezierCurveTo(28,18,0,34,0,44);
+      ctx.bezierCurveTo(0,34,-28,18,-28,-2);
+      ctx.bezierCurveTo(-28,-18,-6,-18,0,-6);
+      ctx.closePath(); ctx.fillStyle=fill; ctx.fill(); ctx.restore();
+    }
+
+    function drawSparkle(ctx,x,y,r,fill){
+      ctx.save(); ctx.translate(x,y); ctx.rotate((Math.random()-0.5)*0.5);
+      ctx.beginPath();
+      for(let i=0;i<8;i++){
+        const a = i*(Math.PI*2/8);
+        const rad = i%2===0? r: r*0.45;
+        ctx.lineTo(Math.cos(a)*rad, Math.sin(a)*rad);
+      }
+      ctx.closePath(); ctx.fillStyle=fill; ctx.fill(); ctx.restore();
+    }
+
+    function drawConfetti(ctx,x,y,w,h,fill,rot){
+      ctx.save(); ctx.translate(x,y); ctx.rotate(rot); ctx.fillStyle=fill; ctx.fillRect(-w/2,-h/2,w,h); ctx.restore();
+    }
+
+    function createParticle(y, opts){
+      opts = opts || {};
+      const shape = opts.shape || 'circle';
+      const col = opts.col || palette[Math.floor(Math.random()*palette.length)];
+      parts.push({
+        x: (typeof opts.x === 'number') ? opts.x : Math.random()*W,
+        y: (typeof y === 'number') ? y : H + rand(0, H*0.25),
+        vx: (typeof opts.vx === 'number') ? opts.vx : rand(-0.35,0.35),
+        vy: (typeof opts.vy === 'number') ? opts.vy : rand(-0.9,-0.12),
+        r: opts.r || rand(3,20),
+        life: opts.life || rand(120,520),
+        age: 0,
+        col: col,
+        shape: shape,
+        rot: opts.rot || rand(0,Math.PI*2)
+      });
+      // cap total
+      if(parts.length>500) parts.splice(0, parts.length-500);
+    }
+
+    // warm initial field (lighter on small screens)
+    const screenArea = window.innerWidth * window.innerHeight;
+    let initial = Math.max(12, Math.min(140, Math.floor(screenArea / 80000)));
+    const isSmall = window.innerWidth <= 600 || screenArea < 350000;
+    if(isSmall) initial = Math.max(8, Math.floor(screenArea / 140000));
+    for(let i=0;i<initial;i++) createParticle(Math.random()*H);
+
+    let last = performance.now();
+    function loop(now){
+      const dt = Math.min(60, now - last) / 16.666; last = now;
+      ctx.clearRect(0,0,W,H);
+      // subtle aurora glow behind everything
+      const g = ctx.createLinearGradient(0,0,W,H);
+      g.addColorStop(0,'rgba(20,60,140,0.06)'); g.addColorStop(1,'rgba(120,190,255,0.03)');
+      ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+      for(let i = parts.length - 1; i >= 0; i--){
+        const p = parts[i];
+        p.x += p.vx * dt * 1.1;
+        p.y += p.vy * dt * 1.1 + Math.sin((p.age)*0.02)*0.2;
+        p.rot += 0.01 * dt;
+        p.age += dt;
+        const alpha = Math.max(0, 1 - p.age / p.life);
+        const [r,gc,b,baseA] = p.col;
+        const fill = `rgba(${r},${gc},${b},${alpha * baseA})`;
+
+        if(p.shape === 'heart'){
+          drawHeart(ctx,p.x,p.y,p.r,fill);
+        } else if(p.shape === 'sparkle'){
+          drawSparkle(ctx,p.x,p.y,p.r,fill);
+        } else if(p.shape === 'confetti'){
+          drawConfetti(ctx,p.x,p.y,p.r,p.r*1.6,fill,p.rot);
+        } else {
+          ctx.beginPath(); ctx.fillStyle = fill; ctx.arc(p.x,p.y,Math.max(1,p.r*(0.6+alpha*0.6)),0,Math.PI*2); ctx.fill();
+        }
+
+        if(p.y + p.r < -120 || alpha <= 0.02 || p.x < -120 || p.x > W+120){
+          parts.splice(i,1);
+          // replenish occasionally
+          if(Math.random()>0.5) createParticle();
+        }
+      }
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    // gentle bursts (throttled on small screens)
+    const burstInterval = isSmall ? 3000 : 1800;
+    const burstCount = isSmall ? Math.max(1,Math.floor(initial/140)) : Math.max(1,Math.floor(initial/60));
+    setInterval(()=>{ for(let i=0;i<burstCount;i++) createParticle(); }, burstInterval);
+
+    // parallax / glass reflection using CSS variables
+    const body = document.body;
+    window.addEventListener('mousemove', (e)=>{
+      const cx = (e.clientX / W) - 0.5;
+      const cy = (e.clientY / H) - 0.5;
+      // nudge particles lightly
+      const px = isSmall ? 0.01 : 0.03;
+      const py = isSmall ? 0.008 : 0.02;
+      for(let i=0;i<parts.length;i++){
+        parts[i].x += cx * px;
+        parts[i].y += cy * py;
+      }
+      body.style.setProperty('--mouse-x', (e.clientX / W).toString());
+      body.style.setProperty('--mouse-y', (e.clientY / H).toString());
+    }, {passive:true});
+
+    // touch parallax: less sensitive and throttled
+    let lastTouch = 0;
+    window.addEventListener('touchmove', (ev)=>{
+      const now = Date.now(); if(now - lastTouch < 80) return; lastTouch = now;
+      const t = ev.touches[0]; if(!t) return;
+      const cx = (t.clientX / W) - 0.5; const cy = (t.clientY / H) - 0.5;
+      const px = 0.008; const py = 0.006;
+      for(let i=0;i<parts.length;i++){ parts[i].x += cx * px; parts[i].y += cy * py; }
+      body.style.setProperty('--mouse-x', (t.clientX / W).toString());
+      body.style.setProperty('--mouse-y', (t.clientY / H).toString());
+    }, {passive:true});
+
+    // expose small API for bursts and celebration sequences
+    window.bgField = {
+      createParticle: createParticle,
+      parts: parts,
+      createBurst: function(x,y,count,shape,colors){
+        for(let i=0;i<count;i++){
+          const c = (colors && colors[i%colors.length]) || palette[Math.floor(Math.random()*palette.length)];
+          createParticle(y, { x: x + rand(-20,20), y: y + rand(-10,10), vx: rand(-3,3), vy: rand(-6,-1), r: rand(6,28), life: rand(60,180), shape: shape, col: c, rot: Math.random()*Math.PI*2 });
+        }
+      }
+    };
+
+  }catch(err){console.warn('bg animation failed', err);} 
+})();
+
 /* ── PASSCODE ── */
 const PASSCODE='1909';
 let entered='';
@@ -734,7 +934,7 @@ function checkCode(){
     setTimeout(()=>{
       lp.style.display='none';
       document.getElementById('main-page').style.display='block';
-      startFlowers();initReveal();initSlideshow();
+      initReveal();initSlideshow();
     },900);
   } else {
     const c=document.getElementById('login-card');
@@ -744,116 +944,23 @@ function checkCode(){
   }
 }
 
-/* ── HEARTS CANVAS (starts immediately on page load) ── */
-const hCanvas=document.getElementById('hearts-canvas');
-const hCtx=hCanvas.getContext('2d');
-hCanvas.width=window.innerWidth;hCanvas.height=window.innerHeight;
-
-const HEART_CHARS=['❤️','💙','💖','💗','💝','💕','🩵','💙','❤️','💙'];
-const hearts=[];
-
-class Heart{
-  constructor(burst){
-    this.reset(burst);
+document.addEventListener('keydown', function(e){
+  const loginPage = document.getElementById('login-page');
+  if(!loginPage || loginPage.style.display === 'none') return;
+  if(e.key >= '0' && e.key <= '9'){
+    e.preventDefault();
+    addDigit(e.key);
+  } else if(e.key === 'Backspace' || e.key === 'Delete'){
+    e.preventDefault();
+    delDigit();
+  } else if(e.key === 'Enter' && entered.length === 4){
+    e.preventDefault();
+    checkCode();
   }
-  reset(burst=false){
-    this.x=Math.random()*hCanvas.width;
-    this.y=burst?Math.random()*hCanvas.height:-30-Math.random()*50;
-    this.size=14+Math.random()*28;
-    this.vy=0.8+Math.random()*1.6;
-    this.vx=(Math.random()-0.5)*0.8;
-    this.rot=Math.random()*360;
-    this.rv=(Math.random()-0.5)*2.5;
-    this.op=0.55+Math.random()*0.45;
-    this.ch=HEART_CHARS[Math.floor(Math.random()*HEART_CHARS.length)];
-    this.sw=0.008+Math.random()*0.016;
-    this.so=Math.random()*Math.PI*2;
-    this.t=0;
-  }
-  update(){
-    this.t++;
-    this.y+=this.vy;
-    this.x+=Math.sin(this.t*this.sw+this.so)*0.7+this.vx;
-    this.rot+=this.rv;
-    if(this.y>hCanvas.height+50) this.reset();
-  }
-  draw(){
-    hCtx.save();
-    hCtx.globalAlpha=this.op;
-    hCtx.translate(this.x,this.y);
-    hCtx.rotate(this.rot*Math.PI/180);
-    hCtx.font=`${this.size}px serif`;
-    hCtx.textAlign='center';hCtx.textBaseline='middle';
-    hCtx.fillText(this.ch,0,0);
-    hCtx.restore();
-  }
-}
-
-/* Spawn 80 hearts immediately — lots of falling hearts! */
-for(let i=0;i<80;i++) hearts.push(new Heart(true));
-
-function heartLoop(){
-  hCtx.clearRect(0,0,hCanvas.width,hCanvas.height);
-  hearts.forEach(h=>{h.update();h.draw();});
-  requestAnimationFrame(heartLoop);
-}
-heartLoop();
-
-window.addEventListener('resize',()=>{
-  hCanvas.width=window.innerWidth;hCanvas.height=window.innerHeight;
 });
 
-/* ── FLOWERS PARTICLES (after login) ── */
-const fCanvas=document.getElementById('particles-canvas');
-const fCtx=fCanvas.getContext('2d');
-let flowers=[],flowersRunning=false;
-const FLORALS=['🌸','🌺','🌼','🌷','🌻','🌹','💐','✨','⭐','🌟'];
-
-class Flower{
-  constructor(){this.reset(true);}
-  reset(init=false){
-    this.x=Math.random()*fCanvas.width;
-    this.y=init?Math.random()*fCanvas.height:-40;
-    this.size=15+Math.random()*18;
-    this.vy=0.4+Math.random()*0.9;
-    this.vx=(Math.random()-0.5)*0.6;
-    this.rot=Math.random()*360;
-    this.rv=(Math.random()-0.5)*1.2;
-    this.op=0.35+Math.random()*0.45;
-    this.ch=FLORALS[Math.floor(Math.random()*FLORALS.length)];
-    this.sw=0.007+Math.random()*0.015;
-    this.so=Math.random()*Math.PI*2;
-    this.t=0;
-  }
-  update(){
-    this.t++;this.y+=this.vy;
-    this.x+=Math.sin(this.t*this.sw+this.so)*0.5+this.vx;
-    this.rot+=this.rv;
-    if(this.y>fCanvas.height+50) this.reset();
-  }
-  draw(){
-    fCtx.save();fCtx.globalAlpha=this.op;
-    fCtx.translate(this.x,this.y);fCtx.rotate(this.rot*Math.PI/180);
-    fCtx.font=`${this.size}px serif`;
-    fCtx.textAlign='center';fCtx.textBaseline='middle';
-    fCtx.fillText(this.ch,0,0);fCtx.restore();
-  }
-}
-
-function flowerLoop(){
-  fCtx.clearRect(0,0,fCanvas.width,fCanvas.height);
-  flowers.forEach(f=>{f.update();f.draw();});
-  if(flowersRunning) requestAnimationFrame(flowerLoop);
-}
-function startFlowers(){
-  fCanvas.width=window.innerWidth;fCanvas.height=window.innerHeight;
-  flowersRunning=true;
-  for(let i=0;i<40;i++) flowers.push(new Flower());
-  flowerLoop();
-}
-
 /* ── SLIDESHOW ── */
-let currentSlide=0;const TOTAL_SLIDES=5;let autoTimer;
+let currentSlide=0;const TOTAL_SLIDES=7;let autoTimer;
 function initSlideshow(){
   const dw=document.getElementById('slide-dots');dw.innerHTML='';
   for(let i=0;i<TOTAL_SLIDES;i++){
@@ -881,32 +988,70 @@ const MONTHS=['January','February','March','April','May','June','July','August',
 const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 function handleDate(input){
   if(!input.value)return;
-  const[yr,mo,dy]=input.value.split('-').map(Number);
-  const dateObj=new Date(yr,mo-1,dy);
-  const dateStr=`${DAYS[dateObj.getDay()]}, ${MONTHS[mo-1]} ${dy}, ${yr}`;
-  const today=new Date();today.setHours(0,0,0,0);
-  const diff=Math.ceil((dateObj-today)/86400000);
-  const sub=diff<0?'⚠️ That date has passed — pick a future date!'
-    :diff===0?'🎉 That\'s today — let\'s go!'
-    :diff===1?'💙 Tomorrow — how exciting!'
-    :`💙 ${diff} days away — Adnan is already planning!`;
-  document.getElementById('dr-value').textContent=dateStr;
-  document.getElementById('dr-sub').textContent=sub;
-  document.getElementById('date-result').style.display='block';
-  document.getElementById('date-confirmed').style.display='none';
-  document.getElementById('date-confirm-btn').style.display=diff>=0?'inline-block':'none';
+  const [yr, mo, dy] = input.value.split('-').map(Number);
+  const dateObj = new Date(yr, mo - 1, dy);
+  const dateStr = `${DAYS[dateObj.getDay()]}, ${MONTHS[mo - 1]} ${dy}, ${yr}`;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diff = Math.ceil((dateObj - today) / 86400000);
+  const sub = diff < 0 ? 'That date has passed — pick a future date!'
+    : diff === 0 ? 'That\'s today — let\'s go!'
+    : diff === 1 ? 'Tomorrow — how exciting!'
+    : `${diff} days away — I’m already dreaming about it!`;
+  document.getElementById('dr-value').textContent = dateStr;
+  document.getElementById('dr-sub').textContent = sub;
+  document.getElementById('date-result').style.display = 'block';
+  document.getElementById('theme-inputs').style.display = diff >= 0 ? 'block' : 'none';
+  document.getElementById('date-confirmed').style.display = 'none';
+  document.getElementById('date-confirm-btn').style.display = 'none';
+  if(diff >= 0) updateColorField();
 }
+
+function updateColorField(){
+  const color = document.getElementById('day-color').value.trim();
+  const hasDate = !!document.getElementById('bday-date').value;
+  document.getElementById('date-confirm-btn').style.display = hasDate && color ? 'inline-block' : 'none';
+}
+
 function confirmDate(){
-  const input=document.getElementById('bday-date');
-  const[yr,mo,dy]=input.value.split('-').map(Number);
-  const dateObj=new Date(yr,mo-1,dy);
-  const dateStr=`${DAYS[dateObj.getDay()]}, ${MONTHS[mo-1]} ${dy}, ${yr}`;
-  document.getElementById('confirmed-date-text').textContent=dateStr;
-  document.getElementById('date-result').style.display='none';
-  document.getElementById('date-confirm-btn').style.display='none';
-  document.getElementById('date-confirmed').style.display='block';
-  /* extra heart burst on confirm */
-  for(let i=0;i<30;i++) hearts.push(new Heart(false));
+
+  const input = document.getElementById('bday-date');
+  const color = document.getElementById('day-color').value.trim();
+  if(!input.value || !color) return;
+
+  const [yr, mo, dy] = input.value.split('-').map(Number);
+  const dateObj = new Date(yr, mo - 1, dy);
+  const dateStr = `${DAYS[dateObj.getDay()]}, ${MONTHS[mo - 1]} ${dy}, ${yr}`;
+
+  document.getElementById('date-confirmed').innerHTML = `
+    <div class="conf-message">
+      <div class="conf-title">Date Confirmed</div>
+      <p>The date has been beautifully set for:</p>
+      <div class="conf-date">${dateStr}</div>
+      <p>The day will have <strong>${color}</strong> color energy.</p>
+      <p>I’m ready to meet you and make every moment of this day unforgettable.</p>
+      <div class="conf-sign">— Ready to meet you</div>
+    </div>
+  `;
+
+  document.getElementById('date-result').style.display = 'none';
+  document.getElementById('date-confirm-btn').style.display = 'none';
+  document.getElementById('theme-inputs').style.display = 'none';
+  document.getElementById('date-confirmed').style.display = 'block';
+
+  const whatsappMessage =
+    `Date Confirmed\n\nThe selected date is:\n${dateStr}\n\nColor: ${color}\n\nI’m ready to meet you and make every moment unforgettable.\n\n— Ready to meet you`;
+
+  const whatsappURL =
+    `https://wa.me/254769159245?text=${encodeURIComponent(whatsappMessage)}`;
+
+  // trigger premium celebration sequence, then redirect to WhatsApp
+  if(window.effects && typeof window.effects.playConfirmation === 'function'){
+    window.effects.playConfirmation(document.getElementById('date-confirmed'), ()=>{
+      window.open(whatsappURL, '_blank');
+    });
+  } else {
+    window.open(whatsappURL, '_blank');
+  }
 }
 
 /* ── SCROLL REVEAL ── */
@@ -916,6 +1061,44 @@ function initReveal(){
   },{threshold:0.1});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 }
+
+// Effects: celebration sequences, confirmation, hearts, confetti
+(function(){
+  function getCenter(el){
+    const r = el.getBoundingClientRect();
+    return { x: r.left + r.width/2, y: r.top + r.height/2 };
+  }
+
+  function burstHeartsAt(x,y,count){
+    if(window.bgField) window.bgField.createBurst(x,y,count,'heart');
+  }
+  function burstConfettiAt(x,y,count){
+    if(window.bgField) window.bgField.createBurst(x,y,count,'confetti');
+  }
+
+  function sparkleAround(x,y,count){
+    if(window.bgField) window.bgField.createBurst(x,y,count,'sparkle');
+  }
+
+  function playConfirmation(el, cb){
+    try{
+      const center = getCenter(el);
+      // show card with shimmer
+      el.classList.add('show'); el.classList.add('celebrate');
+      setTimeout(()=> el.classList.add('show'),20);
+      // bursts
+      burstHeartsAt(center.x + (Math.random()*80-40), center.y, 18);
+      burstConfettiAt(center.x, center.y, 34);
+      sparkleAround(center.x, center.y-20, 12);
+      // gentle repeating heartbeat glow
+      const hb = setInterval(()=> burstHeartsAt(center.x + (Math.random()*120-60), center.y - 10, 6), 1400);
+      // end sequence after 2s then call callback
+      setTimeout(()=>{ clearInterval(hb); if(cb) cb(); }, 1800);
+    }catch(e){ if(cb) cb(); }
+  }
+
+  window.effects = { playConfirmation };
+})();
 </script>
 </body>
 </html>
