@@ -1693,7 +1693,7 @@ function checkPin(){
     card.offsetHeight; // reflow
     card.style.animation = '';
     hint.classList.add('error');
-    hint.textContent = 'not quite right, try again 💔';
+    hint.textContent = 'ouch, try again 💔';
     pinVal='';
     updatePinDisplay();
     setTimeout(()=>{ hint.classList.remove('error'); hint.textContent='hint: our special date 🤍'; }, 2000);
