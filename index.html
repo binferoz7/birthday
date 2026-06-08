@@ -834,7 +834,10 @@ body {
 .collage-card img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
-  object-fit: cover; z-index: 0;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  z-index: 0;
 }
 .collage-placeholder {
   position: absolute; inset: 0;
@@ -852,6 +855,7 @@ body {
   font-size: 0.85rem; color: rgba(255,255,255,0.75);
   font-style: italic;
 }
+/* photo edit controls removed to keep original image exact */
 .collage-card:nth-child(1) { --ph-c1: rgba(255,45,111,0.3); --ph-c2: rgba(139,47,201,0.3); }
 .collage-card:nth-child(2) { --ph-c1: rgba(0,201,184,0.3);  --ph-c2: rgba(59,130,246,0.3); }
 .collage-card:nth-child(3) { --ph-c1: rgba(247,201,72,0.3); --ph-c2: rgba(255,45,111,0.3); }
@@ -1119,23 +1123,19 @@ body { cursor: none; }
     </div>
     <div class="collage-grid">
       <div class="collage-card reveal reveal-delay-1">
-        <img src="photo1.jpg" alt="Memory 1" onerror="this.style.display='none'">
-        <div class="collage-placeholder"><span class="collage-ph-icon">🌸</span><span>Add photo1.jpg</span></div>
-        <div class="collage-label">Our first photo together</div>
+        <img src="css/arna.JPEG" alt="Memory 1" onerror="this.style.display='none'">
+        <div class="collage-label">Our first cute photo together</div>
       </div>
       <div class="collage-card reveal reveal-delay-2">
         <img src="photo2.jpg" alt="Memory 2" onerror="this.style.display='none'">
-        <div class="collage-placeholder"><span class="collage-ph-icon">💫</span><span>Add photo2.jpg</span></div>
         <div class="collage-label">A moment I always smile about</div>
       </div>
-      <div class="collage-card reveal reveal-delay-3">
-        <img src="photo3.jpg" alt="Memory 3" onerror="this.style.display='none'">
-        <div class="collage-placeholder"><span class="collage-ph-icon">✨</span><span>Add photo3.jpg</span></div>
-        <div class="collage-label">You light up every room</div>
+      <div class="collage-card reveal reveal-delay-2">
+        <img src="css/lmao.jpeg" alt="Memory 2" onerror="this.style.display='none'">
+        <div class="collage-label">That silly snap story</div>
       </div>
       <div class="collage-card reveal reveal-delay-4">
         <img src="photo4.jpg" alt="Memory 4" onerror="this.style.display='none'">
-        <div class="collage-placeholder"><span class="collage-ph-icon">🌙</span><span>Add photo4.jpg</span></div>
         <div class="collage-label">Forever grateful for this day</div>
       </div>
     </div>
@@ -1504,6 +1504,7 @@ body { cursor: none; }
   draw();
 })();
 
+
 /* ════════════════════════════════════════════════
    PARTICLE PHYSICS ENGINE
    (Love hearts, sparkles, rose petals)
@@ -1871,6 +1872,15 @@ document.addEventListener('mousemove', e=>{
   document.body.appendChild(sp);
   setTimeout(()=>sp.remove(), 800);
 });
+
+// placeholder behavior restored to original HTML defaults
+
+// photo adjustment removed to keep image exact
+
+// --- Photo1 uploader: loads selected image into first collage slot and persists it ---
+// photo uploader removed to restore original layout
+
+
 </script>
 </body>
 </html>
